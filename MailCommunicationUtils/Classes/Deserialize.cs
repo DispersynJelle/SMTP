@@ -17,9 +17,9 @@ namespace MailCommunicationUtils.Classes
             var result = new ConverterResult<T>() { Status = ConverterStatus.Ok };
             var fullFilePath = Path.Combine(absoluteFolderPath, fileName);
             string JSONString = File.ReadAllText(fullFilePath);
-            result.ReturnValue = System.Text.Json.JsonSerializer.Deserialize<List<PersonList>>(JSONString)  ;
+            result.ReturnValue = System.Text.Json.JsonSerializer.Deserialize<T>(JSONString);
 
-            return result2;
+            return result;
         }
     }
 }
