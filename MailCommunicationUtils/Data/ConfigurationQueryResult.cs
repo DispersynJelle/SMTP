@@ -1,4 +1,4 @@
-﻿using MailCommunicationUtils.Enums;
+﻿/*using MailCommunicationUtils.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,3 +14,4 @@ namespace MailCommunicationUtils.Data
         public QueryStatus Status { get; set; }
     }
 }
+*/

@@ -26,7 +26,7 @@ namespace MailCommunicationUtils.Classes
         }
         public MailMessage CreateMail(string ReceiverAdress, string htmlContent, string subject)
         {
-            var from = new MailAddress("roy.decaestecker@vives.be", "R.Decaestecker - Vives");
+            var from = new MailAddress("jelle.dispersyn@student.vives.be", "R.Decaestecker - Vives");
             var to = new MailAddress(ReceiverAdress);
             var message = new MailMessage(from, to);
             message.Subject = subject;
@@ -38,7 +38,7 @@ namespace MailCommunicationUtils.Classes
 
         public MailMessage CreateMail(string ReceiverAdress, string htmlContent, string subject, string attatchmentPath1, string attatchmentPath2)
         {
-            var from = new MailAddress("roy.decaestecker@vives.be", "R.Decaestecker - Vives");
+            var from = new MailAddress("jelle.dispersyn@student.vives.be", "R.Decaestecker - Vives");
             var to = new MailAddress(ReceiverAdress);
             var message = new MailMessage(from, to);
             Attachment data1 = new Attachment(attatchmentPath1, MediaTypeNames.Application.Octet);

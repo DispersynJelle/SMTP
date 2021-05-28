@@ -1,4 +1,4 @@
-﻿using MailCommunicationUtils.Data;
+﻿/*using MailCommunicationUtils.Data;
 using MailCommunicationUtils.Enums;
 using MailCommunicationUtils.Interfaces;
 using Microsoft.Extensions.Configuration;
@@ -101,3 +101,4 @@ namespace MailCommunicationUtils.Classes
         }
     }
 }
+*/

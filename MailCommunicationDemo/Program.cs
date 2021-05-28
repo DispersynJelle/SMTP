@@ -11,9 +11,9 @@ namespace MailCommunicationDemo
     {
         private static Deserialize _deserialize = new Deserialize();
         private static SMTPMailMessage sMTPMailMessage = new SMTPMailMessage("apikey",
-            "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",
+            "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",
             "smtp.sendgrid.net");
-        private static AppSettingsService<DemoAppSettings> _appSettingsService = AppSettingsService<DemoAppSettings>.Instance;
+        //private static AppSettingsService<DemoAppSettings> _appSettingsService = AppSettingsService<DemoAppSettings>.Instance;
 
         static void Main(string[] args)
         {
@@ -24,7 +24,7 @@ namespace MailCommunicationDemo
         {
             Console.ForegroundColor = ConsoleColor.White;
             if (clearScreen) Console.Clear();
-            Console.Write("Choose an option:");
+            Console.WriteLine("Choose an option:");
             Console.WriteLine("1) Stuur mail zonder bijlagen");
             Console.WriteLine("2) Stuur mail met bijlagen");
             Console.WriteLine("3) Stuur subscription mail");
@@ -47,14 +47,15 @@ namespace MailCommunicationDemo
                     }
                 case "3":
                     {
-                       // SendSubscriptionConfirmation<Person>("Jelle", "jelle.dispersyn@student.vives.be", _appSettingsService.AppSettings.html.htmlFolderPath, "Info.html", "", "", "", false);
-                       SendSubscriptionConfirmation("Jelle", "jelle.dispersyn@student.vives.be", @"D:\Vives\Kwartaal 4\Programming Applictaion software\Taken\Taak_3_Jelle_Dispersyn\SMTP\MailCommunicationDemo\Files\Html")
+                        // SendSubscriptionConfirmation<Person>("Jelle", "jelle.dispersyn@student.vives.be", _appSettingsService.AppSettings.html.htmlFolderPath, "Info.html", "", "", "", false);
+                        SendSubscriptionConfirmation<Person>("Jelle", "jelle.dispersyn@student.vives.be", @"D:\Vives\Kwartaal 4\Programming Applictaion software\Taken\Taak_3_Jelle_Dispersyn\SMTP\MailCommunicationDemo\Files\Html\Info.html", "", "", "", "", false);
                         PrintMenu();
                         break;
                     }
                 case "4":
                     {
-                      //  SendSubscriptionConfirmation<Person>("", "", _appSettingsService.AppSettings.html.htmlFolderPath, "Info.html", "geadresseerden.json", _appSettingsService.AppSettings.json.jsonFolderPath, "json", true);
+                        //  SendSubscriptionConfirmation<Person>("", "", _appSettingsService.AppSettings.html.htmlFolderPath, "Info.html", "geadresseerden.json", _appSettingsService.AppSettings.json.jsonFolderPath, "json", true);
+                        SendSubscriptionConfirmation<Person>("", "", @"D:\Vives\Kwartaal 4\Programming Applictaion software\Taken\Taak_3_Jelle_Dispersyn\SMTP\MailCommunicationDemo\Files\Html\Info.html", "", "geadresseerden.json", @"D:\Vives\Kwartaal 4\Programming Applictaion software\Taken\Taak_3_Jelle_Dispersyn\SMTP\MailCommunicationDemo\Files\Json", "json", true);
                         PrintMenu();
                         break;
                     }
@@ -89,8 +90,7 @@ namespace MailCommunicationDemo
 
         static void SendSubscriptionConfirmation<T>(string personName, string personEmail, string htmlPath, string htmlFileName, string fileName, string jsonPath, string fileType, bool multiplePeople)
         {
-            string fullHtmlPath = htmlPath + htmlFileName;
-            string html = File.ReadAllText(fullHtmlPath);
+            string html = File.ReadAllText(htmlPath);
             if (multiplePeople == true)
             {
                 var persons = _deserialize.DeserializeObjectFromFile<List<Person>>(jsonPath, fileName, fileType);
@@ -108,15 +108,15 @@ namespace MailCommunicationDemo
                     {
                         Console.ForegroundColor = ConsoleColor.DarkYellow;
                         Console.WriteLine($"Message send to {person.Email}");
-                        return;
                     }
                     else
                     {
                         Console.ForegroundColor = ConsoleColor.DarkGray;
                         Console.WriteLine(result.Message);
-                        return;
                     }
+                    
                 }
+                return;
             }
             else
             {

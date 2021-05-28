@@ -1,4 +1,4 @@
-﻿using MailCommunicationUtils.Data;
+﻿/*using MailCommunicationUtils.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,3 +12,4 @@ namespace MailCommunicationUtils.Interfaces
         public ConfigurationQueryResult<TSection> GetConfigurationSection<TSection>(string sectionName);
     }
 }
+*/
