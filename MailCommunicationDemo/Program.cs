@@ -47,7 +47,7 @@ namespace MailCommunicationDemo
                     }
                 case "4":
                     {
-                        SendSubscriptionConfirmation<Person>(new Person(), "geadresseerden.json", @"D:\Vives\Kwartaal 4\Programming Applictaion software\Taken\Taak_3_Jelle_Dispersyn\SMTP\MailCommunicationDemo\bin\Debug\net5.0", "json");
+                        SendSubscriptionConfirmation<Person>("geadresseerden.json", @"D:\Vives\Kwartaal 4\Programming Applictaion software\Taken\Taak_3_Jelle_Dispersyn\SMTP\MailCommunicationDemo\bin\Debug\net5.0", "json");
                         break;
                     }
                 default:
@@ -105,7 +105,7 @@ namespace MailCommunicationDemo
 
         }
 
-        private static void SendSubscriptionConfirmation<T>(T objectToSerialize, string fileName, string absolutefolderPath, string fileType)
+        private static void SendSubscriptionConfirmation<T>(string fileName, string absolutefolderPath, string fileType)
         {
 
             var result = _deserialize.DeserializeObjectFromFile<T>(absolutefolderPath, fileName, fileType);
