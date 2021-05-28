@@ -9,4 +9,13 @@
     <ProjectReference Include="..\MailCommunicationUtils\MailCommunicationUtils.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="AppSettings\Settings\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
+  </ItemGroup>
+
 </Project>

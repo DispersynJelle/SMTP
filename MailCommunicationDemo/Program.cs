@@ -1,6 +1,8 @@
-﻿using MailCommunicationUtils.Classes;
+﻿using MailCommunicationDemo.Classes;
+using MailCommunicationUtils.Classes;
 using MailCommunicationUtils.Enums;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace MailCommunicationDemo
@@ -11,6 +13,8 @@ namespace MailCommunicationDemo
         private static SMTPMailMessage sMTPMailMessage = new SMTPMailMessage("apikey",
             "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",
             "smtp.sendgrid.net");
+        private static AppSettingsService<DemoAppSettings> _appSettingsService = AppSettingsService<DemoAppSettings>.Instance;
+
         static void Main(string[] args)
         {
             PrintMenu();
@@ -24,6 +28,7 @@ namespace MailCommunicationDemo
             Console.WriteLine("1) Stuur mail zonder bijlagen");
             Console.WriteLine("2) Stuur mail met bijlagen");
             Console.WriteLine("3) Stuur subscription mail");
+            Console.WriteLine("4) Stuur subscription mail to multiple people");
             Console.Write("Select an option: ");
 
             switch (Console.ReadLine())
@@ -42,12 +47,15 @@ namespace MailCommunicationDemo
                     }
                 case "3":
                     {
-                        SendSubscriptionConfirmation(@"D:\Vives\Kwartaal 4\Programming Applictaion software\Taken\Taak_3_Jelle_Dispersyn\SMTP\bin\Debug\net5.0\Info.html", "Jelle", "jelle.dispersyn@student.vives.be");
+                       // SendSubscriptionConfirmation<Person>("Jelle", "jelle.dispersyn@student.vives.be", _appSettingsService.AppSettings.html.htmlFolderPath, "Info.html", "", "", "", false);
+                       SendSubscriptionConfirmation("Jelle", "jelle.dispersyn@student.vives.be", @"D:\Vives\Kwartaal 4\Programming Applictaion software\Taken\Taak_3_Jelle_Dispersyn\SMTP\MailCommunicationDemo\Files\Html")
+                        PrintMenu();
                         break;
                     }
                 case "4":
                     {
-                        SendSubscriptionConfirmation<Person>("geadresseerden.json", @"D:\Vives\Kwartaal 4\Programming Applictaion software\Taken\Taak_3_Jelle_Dispersyn\SMTP\MailCommunicationDemo\bin\Debug\net5.0", "json");
+                      //  SendSubscriptionConfirmation<Person>("", "", _appSettingsService.AppSettings.html.htmlFolderPath, "Info.html", "geadresseerden.json", _appSettingsService.AppSettings.json.jsonFolderPath, "json", true);
+                        PrintMenu();
                         break;
                     }
                 default:
@@ -79,37 +87,61 @@ namespace MailCommunicationDemo
             }
         }
 
-        static void SendSubscriptionConfirmation(string path, string name, string email)
+        static void SendSubscriptionConfirmation<T>(string personName, string personEmail, string htmlPath, string htmlFileName, string fileName, string jsonPath, string fileType, bool multiplePeople)
         {
-            string html = File.ReadAllText(path);
-            string body = String.Format(html, name, email);
-            Console.ForegroundColor = ConsoleColor.DarkCyan;
-            Console.WriteLine($"Sending mail via Sendgrif SMTP Relay {email}");
-
-            var msg = sMTPMailMessage.CreateMail(email, body, "Subscription");
-
-            var result = sMTPMailMessage.sendMessage(msg);
-
-            if (result.Status == MailSendingStatus.OK)
+            string fullHtmlPath = htmlPath + htmlFileName;
+            string html = File.ReadAllText(fullHtmlPath);
+            if (multiplePeople == true)
             {
-                Console.ForegroundColor = ConsoleColor.DarkYellow;
-                Console.WriteLine($"Message send to {email}");
-                return;
+                var persons = _deserialize.DeserializeObjectFromFile<List<Person>>(jsonPath, fileName, fileType);
+                foreach (var person in persons.ReturnValue)
+                {
+                    string body = String.Format(html, person.Name, person.Email);
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
+                    Console.WriteLine($"Sending mail via Sendgrif SMTP Relay {person.Email}");
+
+                    var msg = sMTPMailMessage.CreateMail(person.Email, body, "Subscription");
+
+                    var result = sMTPMailMessage.sendMessage(msg);
+
+                    if (result.Status == MailSendingStatus.OK)
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                        Console.WriteLine($"Message send to {person.Email}");
+                        return;
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        Console.WriteLine(result.Message);
+                        return;
+                    }
+                }
             }
             else
             {
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.WriteLine(result.Message);
-                return;
+                string body = String.Format(html, personName, personEmail);
+                Console.ForegroundColor = ConsoleColor.DarkCyan;
+                Console.WriteLine($"Sending mail via Sendgrif SMTP Relay {personEmail}");
+
+                var msg = sMTPMailMessage.CreateMail(personEmail, body, "Subscription");
+
+                var result = sMTPMailMessage.sendMessage(msg);
+
+                if (result.Status == MailSendingStatus.OK)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    Console.WriteLine($"Message send to {personEmail}");
+                    return;
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine(result.Message);
+                    return;
+                }
             }
-
-        }
-
-        private static void SendSubscriptionConfirmation<T>(string fileName, string absolutefolderPath, string fileType)
-        {
-
-            var result = _deserialize.DeserializeObjectFromFile<PersonList>(absolutefolderPath, fileName, fileType);
-
+            
 
         }
     }

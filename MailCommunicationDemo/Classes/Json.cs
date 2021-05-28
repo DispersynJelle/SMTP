@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MailCommunicationUtils.Classes
+namespace MailCommunicationDemo.Classes
 {
-    public class PersonList
+    public class Json
     {
-        public List<Person> geadresseerden { get; set; }
+        public string jsonFolderPath { get; set; }
     }
 }
