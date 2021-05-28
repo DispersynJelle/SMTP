@@ -108,7 +108,7 @@ namespace MailCommunicationDemo
         private static void SendSubscriptionConfirmation<T>(string fileName, string absolutefolderPath, string fileType)
         {
 
-            var result = _deserialize.DeserializeObjectFromFile<T>(absolutefolderPath, fileName, fileType);
+            var result = _deserialize.DeserializeObjectFromFile<PersonList>(absolutefolderPath, fileName, fileType);
 
 
         }

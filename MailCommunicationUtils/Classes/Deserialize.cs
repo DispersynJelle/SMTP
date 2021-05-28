@@ -14,10 +14,10 @@ namespace MailCommunicationUtils.Classes
     {
         public ConverterResult<T> DeserializeObjectFromFile<T>(string absoluteFolderPath, string fileName, string fileType)
         {
-            var result = new ConverterResult<PersonList>() { Status = ConverterStatus.Ok };
+            var result = new ConverterResult<T>() { Status = ConverterStatus.Ok };
             var fullFilePath = Path.Combine(absoluteFolderPath, fileName);
             string JSONString = File.ReadAllText(fullFilePath);
-            result.ReturnValue = System.Text.Json.JsonSerializer.Deserialize<PersonList>(JSONString);
+            result.ReturnValue = System.Text.Json.JsonSerializer.Deserialize<T>(JSONString);
 
             return result;
         }
